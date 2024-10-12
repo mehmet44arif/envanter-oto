@@ -1,0 +1,69 @@
+﻿@using EnvanterOtomasyonu.Models.Entity
+@model List<FizikselServer>
+@{
+    ViewBag.Title = "FizikselServerlar";
+    Layout = "~/Views/Shared/mainLayout.cshtml";
+}
+
+<h2>FizikselServerlar</h2>
+
+@using (Html.BeginForm("KayitEkleGuncelle", "FizikselServer", FormMethod.Post))
+{
+    @Html.Hidden("FizikselServerID", "0")
+
+    <div>
+        <label>Marka</label>
+        <input type="text" class="form-control" name="Marka" id="Marka" />
+    </div>
+    <div>
+        <label>Model</label>
+        <input type="text" class="form-control" name="Model" id="Model" />
+    </div>
+    <div>
+        <label>Kullanım Amacı</label>
+        <input type="text" class="form-control" name="KullanımAmacı" id="KullanımAmacı" />
+    </div>
+    <div>
+        <label>IP Adresi</label>
+        <input type="text" class="form-control" name="IpAdresi" id="IpAdresi" />
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Kayıt Ekle</button>
+    </div>
+}
+
+<table class="table table-bordered">
+    <tr>
+        <th>Marka</th>
+        <th>Model</th>
+        <th>IP Adresi</th>
+        <th>Kullanım Amacı</th>
+        <th>Sil</th>
+        <th>Güncelle</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Marka</td>
+            <td>@item.Model</td>
+            <td>@item.IpAdresi</td>
+            <td>@item.KullanımAmacı</td>
+            <td>
+                @Html.ActionLink("Sil", "Sil", new { FizikselServerID = item.FizikselServerID }, new { @class = "btn btn-danger" })
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary" onclick="populateForm(@item.FizikselServerID, '@item.Marka', '@item.Model', '@item.IpAdresi', '@item.KullanımAmacı')">Güncelle</button>
+            </td>
+        </tr>
+    }
+</table>
+
+<script>
+    function populateForm(FizikselServerID, Marka, Model, IpAdresi, KullanimAmaci) {
+        document.getElementById("FizikselServerID").value = FizikselServerID;
+        document.getElementById("Marka").value = Marka;
+        document.getElementById("Model").value = Model;
+        document.getElementById("IpAdresi").value = IpAdresi;
+        document.getElementById("KullanımAmacı").value = KullanimAmaci;
+    }
+</script>

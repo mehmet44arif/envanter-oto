@@ -1,0 +1,67 @@
+﻿@using EnvanterOtomasyonu.Models.Entity
+@model List<SanalSunucu>
+
+@{
+    ViewBag.Title = "SanalSunucular";
+    Layout = "~/Views/Shared/mainLayout.cshtml";
+}
+
+<h2>Sanal Sunucular</h2>
+
+@using (Html.BeginForm("KayitEkleGuncelle", "SanalSunucu", FormMethod.Post))
+{
+    @Html.Hidden("SanalSunucuID", "0")
+
+    <div>
+        <label for="SunucuAdi">Sunucu Adı</label>
+        <input type="text" class="form-control" name="SunucuAdi" id="SunucuAdi" />
+    </div>
+    <div>
+        <label for="KullanimAmaci">Kullanım Amacı</label>
+        <input type="text" class="form-control" name="KullanimAmaci" id="KullanimAmaci" />
+    </div>
+    <div>
+        <label for="IpAdresi">IP Adresi</label>
+        <input type="text" class="form-control" name="IpAdresi" id="IpAdresi" />
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Kayıt Ekle/Güncelle</button>
+    </div>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Sunucu Adı</th>
+            <th>IP Adresi</th>
+            <th>Kullanım Amacı</th>
+            <th>Sil</th>
+            <th>Güncelle</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.SunucuAdi</td>
+                <td>@item.IpAdresi</td>
+                <td>@item.KullanımAmacı</td>
+                <td>
+                    @Html.ActionLink("Sil", "Sil", new { SanalSunucuID = item.SanalSunucuID }, new { @class = "btn btn-danger" })
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary" onclick="populateForm(@item.SanalSunucuID, '@item.SunucuAdi', '@item.IpAdresi', '@item.KullanımAmacı')">Güncelle</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function populateForm(SanalSunucuID, SunucuAdi, IpAdresi, KullanimAmaci) {
+        document.getElementById("SanalSunucuID").value = SanalSunucuID;
+        document.getElementById("SunucuAdi").value = SunucuAdi;
+        document.getElementById("IpAdresi").value = IpAdresi;
+        document.getElementById("KullanimAmaci").value = KullanimAmaci;
+    }
+</script>

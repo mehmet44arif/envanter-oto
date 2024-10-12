@@ -1,0 +1,79 @@
+﻿@using EnvanterOtomasyonu.Models.Entity
+@model List<KullanıcıBilgisayar>
+
+@{
+    ViewBag.Title = "Kullanıcı Bilgisayar";
+    Layout = "~/Views/Shared/mainLayout.cshtml";
+}
+
+@using (Html.BeginForm("KayitEkleGuncelle", "SonKullanici", FormMethod.Post))
+{
+    @Html.Hidden("SonKullaniciID", 0) <!-- Bu ID'yi kullanarak kayıt güncellenebilir -->
+
+    <div>
+        <label for="KullaniciAdi">Kullanıcı Adı</label>
+        <input type="text" class="form-control" name="KullaniciAdi" id="KullaniciAdi" />
+    </div>
+    <div>
+        <label for="Birim">Birim</label>
+        <input type="text" class="form-control" name="Birim" id="Birim" />
+    </div>
+    <div>
+        <label for="Marka">Marka</label>
+        <input type="text" class="form-control" name="Marka" id="Marka" />
+    </div>
+    <div>
+        <label for="SeriNo">Seri No</label>
+        <input type="text" class="form-control" name="SeriNo" id="SeriNo" />
+    </div>
+    <div>
+        <label for="Sapkullanicimi">Sap Kullanıcı mı?</label>
+        <input type="checkbox" name="Sapkullanicimi" id="Sapkullanicimi" />
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Kayıt Ekle/Güncelle</button>
+    </div>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Kullanıcı Adı</th>
+            <th>Birim</th>
+            <th>Marka</th>
+            <th>Seri No</th>
+            <th>Sap Kullanıcı mı?</th>
+            <th>Sil</th>
+            <th>Güncelle</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.KullaniciAdi</td>
+                <td>@item.Birim</td>
+                <td>@item.Marka</td>
+                <td>@item.SeriNo</td>
+                <td>@item.Sapkullanicimi</td>
+                <td>
+                    @Html.ActionLink("Sil", "Sil", new { SonKullaniciID = item.SonKullaniciID }, new { @class = "btn btn-danger" })
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary" onclick="populateForm(@item.SonKullaniciID, '@item.KullaniciAdi', '@item.Birim', '@item.Marka', '@item.SeriNo', @item.Sapkullanicimi)">Güncelle</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function populateForm(id, kullaniciAdi, birim, marka, seriNo, sapKullaniciMi) {
+        document.getElementById("SonKullaniciID").value = id;
+        document.getElementById("KullaniciAdi").value = kullaniciAdi;
+        document.getElementById("Birim").value = birim;
+        document.getElementById("Marka").value = marka;
+        document.getElementById("SeriNo").value = seriNo;
+        document.getElementById("Sapkullanicimi").checked = (sapKullaniciMi === true); // Boolean değer kontrolü
+    }
+</script>

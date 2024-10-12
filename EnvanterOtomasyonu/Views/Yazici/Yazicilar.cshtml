@@ -1,0 +1,74 @@
+﻿@using EnvanterOtomasyonu.Models.Entity
+@model List<Yazicilar>
+@{
+
+}
+@{
+    ViewBag.Title = "Yazicilar";
+    Layout = "~/Views/Shared/mainLayout.cshtml";
+}
+
+<h2>Yazicilar</h2>
+
+
+
+@using (Html.BeginForm("KayitEkleGuncelle", "Yazici", "Index", FormMethod.Post))
+{
+    @Html.Hidden("YaziciID","0")
+
+    <div>
+        <label>Marka Model</label>
+        <input type="text" class="form-control" name="YaziciMarkaModel" id="YaziciMarkaModel" />
+    </div>
+    <div>
+        <label>IP Adresi</label>
+        <input type="text" class="form-control" name="IpAdresi" id="IpAdresi" />
+    </div>
+    <div>
+        <label>Yazıcı Birim</label>
+        <input type="text" class="form-control" name="YaziciBirim" id="YaziciBirim" />
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Kayıt Ekle</button>
+    </div>
+
+}
+
+}
+<table class="table table-bordered">
+    <tr>
+
+        <th>Yazici Marka Model</th>
+        <th>Ip Adresi</th>
+        <th>Yazıcı Birim </th>
+        <th>Sil</th>
+        <th>Güncelle</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>@item.YaziciMarkaModel</td>
+            <td>@item.IpAdresi</td>
+            <td>@item.YaziciBirim</td>
+            <td>
+                @Html.ActionLink("Sil", "Sil", new { YaziciID = item.YaziciID }, new { @class = "btn btn-danger" })
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary" onclick="populateForm(@item.YaziciID, '@item.YaziciMarkaModel', '@item.IpAdresi', '@item.YaziciBirim')">Güncelle</button>
+            </td>
+        </tr>
+    }
+</table>
+<script>
+    function populateForm(yaziciID, yaziciMarkaModel, ipAdresi, yaziciBirim) {
+        document.getElementById("YaziciMarkaModel").value = yaziciMarkaModel;
+        document.getElementById("IpAdresi").value = ipAdresi;
+        document.getElementById("YaziciBirim").value = yaziciBirim;
+        document.getElementById("YaziciID").value = yaziciID;
+    }
+</script>
+
+
+
+<tbody>
